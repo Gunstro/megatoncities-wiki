@@ -1,1 +1,22 @@
+1. Data Acquisition
+Citypopulation.de gets its data from:
+•	National Statistics Agencies (e.g., StatsSA for South Africa, INSEE for France).
+•	UN Data, World Bank, Census Bureaus.
+•	OpenStreetMap (OSM) → for map boundaries down to very small admin units (wards, districts, etc.).
+👉 Best option for you:
+•	Population & demographics → from national census datasets + UN population division.
+•	Geographic boundaries (shapefiles) → from OpenStreetMap or GADM.org.
+•	These can give you polygons (shapes) for every ward → province → country.
 
+2. Database Design
+You’ll want a relational structure so that everything rolls up into your Mega hierarchy:
+
+CREATE TABLE mega_zones (
+    zone_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    population BIGINT DEFAULT 0,
+    base_price NUMERIC(18,2) DEFAULT 0, -- optional
+    owner_id INT REFERENCES owners(owner_id), -- optional: direct ownership
+    created_at TIMESTAMP DEFAULT NOW()
+);
